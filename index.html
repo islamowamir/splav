@@ -3,15 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Сплав по Агидели — гайд для пацанов</title>
+<title>Агидель — 60 км за 3 дня</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://api-maps.yandex.ru/2.1/?apikey=b9e78571-62af-4b21-a21e-fc7ae6b3f060&lang=ru_RU" type="text/javascript"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#faf9f6;--white:#fff;--ink:#1a1a1a;--sub:#555;--muted:#888;--green:#1b6b4a;--greenL:#e6f4ed;--greenD:#0f4430;--blue:#2872a8;--blueL:#e8f2fa;--orange:#d97706;--orangeL:#fef3c7;--red:#bf3b30;--redL:#fef2f2;--border:#e8e5df;--radius:16px}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;font-size:18px;line-height:1.8}
 .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:5rem 2rem;background:linear-gradient(165deg,#0f4430,#1b6b4a 40%,#238c5c);color:#fff;position:relative;overflow:hidden}
 .hero::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:80px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
-.hero-inner{max-width:860px;margin:0 auto;width:100%}
+.hero-inner{max-width:900px;margin:0 auto;width:100%}
 .hero-tag{display:inline-block;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;background:rgba(255,255,255,0.15);padding:8px 18px;border-radius:100px;margin-bottom:2rem}
 .hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2.8rem,8vw,5rem);line-height:1.05;margin-bottom:1.5rem}
 .hero p{font-size:clamp(1.1rem,2.5vw,1.35rem);opacity:0.85;font-weight:300;max-width:550px;line-height:1.65;margin-bottom:3rem}
@@ -19,7 +20,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);-webki
 .stat-item{border-left:2px solid rgba(255,255,255,0.3);padding-left:1.25rem}
 .stat-val{font-family:'DM Serif Display',serif;font-size:2.8rem;line-height:1}
 .stat-lbl{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;opacity:0.7;margin-top:0.3rem}
-.wrap{max-width:820px;margin:0 auto;padding:0 1.5rem}
+.wrap{max-width:860px;margin:0 auto;padding:0 2rem}
 section{padding:5rem 0}
 .stag{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;color:var(--green);margin-bottom:0.75rem}
 h2{font-family:'DM Serif Display',serif;font-size:clamp(2rem,5vw,2.8rem);line-height:1.15;margin-bottom:1rem}
@@ -28,6 +29,25 @@ h3{font-size:1.15rem;font-weight:700;margin-bottom:0.4rem}
 p{margin-bottom:0.6rem}
 a{color:var(--green);text-decoration:none;border-bottom:1px solid var(--greenL)}
 a:hover{border-bottom-color:var(--green)}
+#map{width:100%;height:500px;border-radius:var(--radius);border:1px solid var(--border);margin:1.5rem 0}
+.map-legend{display:flex;gap:1.5rem;flex-wrap:wrap;margin:0.75rem 0 2rem;font-size:0.82rem}
+.map-legend span{display:flex;align-items:center;gap:6px}
+.map-legend .dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+.weather-widget{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin:1.5rem 0;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.weather-widget .wt{font-family:'DM Serif Display',serif;font-size:2rem}
+.weather-widget .wd{font-size:0.9rem;color:var(--sub)}
+.weather-widget .wl{font-size:0.82rem;color:var(--muted)}
+.timeline{position:relative;padding-left:2rem;margin:1.5rem 0}
+.timeline::before{content:'';position:absolute;left:7px;top:0;bottom:0;width:2px;background:var(--border)}
+.tl-item{position:relative;padding-bottom:1.5rem}
+.tl-item::before{content:'';position:absolute;left:-2rem;top:6px;width:16px;height:16px;border-radius:50%;background:var(--green);border:3px solid var(--bg)}
+.tl-item.camp::before{background:var(--orange)}
+.tl-item.fish::before{background:var(--blue)}
+.tl-time{font-size:0.8rem;font-weight:700;color:var(--green)}
+.tl-item.camp .tl-time{color:var(--orange)}
+.tl-item.fish .tl-time{color:var(--blue)}
+.tl-text{font-size:0.95rem;color:var(--sub)}
+.tl-text b{color:var(--ink)}
 .day{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:2.5rem;margin-bottom:2rem;position:relative}
 .day-badge{position:absolute;top:-1px;right:2rem;background:var(--green);color:#fff;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;padding:10px 20px;border-radius:0 0 12px 12px}
 .day h3{font-family:'DM Serif Display',serif;font-size:1.6rem;margin-bottom:0.5rem}
@@ -42,6 +62,18 @@ a:hover{border-bottom-color:var(--green)}
 .map-link svg{width:14px;height:14px;fill:var(--green)}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:1.5rem}
 .tag{font-size:0.82rem;font-weight:600;padding:6px 14px;border-radius:100px;background:var(--blueL);color:var(--blue)}
+.zone-card{border-radius:var(--radius);padding:1.75rem;margin-bottom:1rem;display:flex;gap:1rem;align-items:flex-start}
+.zone-card.red{background:var(--redL);border:1px solid rgba(191,59,48,0.2)}
+.zone-card.red .zone-icon{color:var(--red)}
+.zone-card.orange{background:var(--orangeL);border:1px solid rgba(217,119,6,0.2)}
+.zone-card.orange .zone-icon{color:var(--orange)}
+.zone-icon{font-size:1.5rem;min-width:32px}
+.zone-card h3{font-size:1rem;margin-bottom:0.3rem}
+.zone-card.red h3{color:var(--red)}
+.zone-card.orange h3{color:var(--orange)}
+.zone-card p{font-size:0.95rem;margin:0;color:var(--sub)}
+.zone-card.red p{color:#7f1d1d}
+.zone-card.orange p{color:#92400e}
 .night{background:var(--greenL);border:1px solid #c3e0d0;border-radius:var(--radius);padding:2rem;margin-bottom:1.5rem}
 .night h3{color:var(--greenD);font-size:1.2rem}
 .night p{color:var(--green);font-size:1rem}
@@ -68,20 +100,21 @@ a:hover{border-bottom-color:var(--green)}
 .cost-row:last-child{border-bottom:none;font-weight:700;font-size:1.15rem;padding-top:1rem}
 .cost-row:last-child span:last-child{color:var(--green);font-family:'DM Serif Display',serif;font-size:1.5rem}
 .cost-row span:last-child{font-weight:700}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin:2rem 0}
+.contact-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;position:relative;overflow:hidden}
+.contact-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.contact-card.g::before{background:var(--green)}
+.contact-card.b::before{background:var(--blue)}
+.contact-card.o::before{background:var(--orange)}
+.contact-card.r::before{background:var(--red)}
+.contact-card h3{font-size:1rem;margin-bottom:0.5rem}
+.contact-card p{font-size:0.92rem;color:var(--sub);margin-bottom:0.3rem;line-height:1.55}
+.contact-card a{font-weight:600}
 .check-section{margin-bottom:2.5rem}
 .check-title{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;color:var(--green);padding-bottom:0.5rem;border-bottom:2px solid var(--green);margin-bottom:1rem;display:inline-block}
 .check-list{list-style:none;columns:2;column-gap:2.5rem}
 .check-list li{font-size:1rem;padding:0.5rem 0 0.5rem 2rem;position:relative;break-inside:avoid;line-height:1.55}
 .check-list li::before{content:'';position:absolute;left:0;top:0.7rem;width:16px;height:16px;border:2px solid var(--border);border-radius:4px}
-.alert{border-radius:var(--radius);padding:1.75rem 2rem;margin-bottom:1.5rem}
-.alert h3{font-size:1rem;margin-bottom:0.4rem}
-.alert p{font-size:1rem;margin:0;line-height:1.65}
-.alert.warn{background:var(--orangeL);border:1px solid rgba(217,119,6,0.2)}
-.alert.warn h3{color:var(--orange)}
-.alert.warn p{color:#92400e}
-.alert.danger{background:var(--redL);border:1px solid rgba(191,59,48,0.2)}
-.alert.danger h3{color:var(--red)}
-.alert.danger p{color:#7f1d1d}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin:2rem 0}
 .info-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;position:relative;overflow:hidden}
 .info-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
@@ -91,6 +124,15 @@ a:hover{border-bottom-color:var(--green)}
 .info-card.blue::before{background:var(--blue)}
 .info-card h3{font-size:1.05rem;margin-bottom:0.5rem}
 .info-card p{font-size:1rem;color:var(--sub);line-height:1.65;margin:0}
+.alert{border-radius:var(--radius);padding:1.75rem 2rem;margin-bottom:1.5rem}
+.alert h3{font-size:1rem;margin-bottom:0.4rem}
+.alert p{font-size:1rem;margin:0;line-height:1.65}
+.alert.warn{background:var(--orangeL);border:1px solid rgba(217,119,6,0.2)}
+.alert.warn h3{color:var(--orange)}
+.alert.warn p{color:#92400e}
+.alert.danger{background:var(--redL);border:1px solid rgba(191,59,48,0.2)}
+.alert.danger h3{color:var(--red)}
+.alert.danger p{color:#7f1d1d}
 .nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;transition:all 0.4s}
 .nav.solid{background:rgba(250,249,246,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
 .nav-logo{font-family:'DM Serif Display',serif;font-size:1.2rem;color:#fff;transition:color 0.4s}
@@ -108,10 +150,12 @@ footer p{font-size:0.9rem;color:var(--muted)}
 .stat-row{gap:1.25rem}
 .stat-val{font-size:2rem}
 .wrap{padding:0 1.25rem}
-.grid2,.fish-grid{grid-template-columns:1fr}
+.grid2,.fish-grid,.contact-grid{grid-template-columns:1fr}
 .tips-grid{grid-template-columns:1fr 1fr}
 .check-list{columns:1}
 .day{padding:1.75rem}
+#map{height:350px}
+.weather-widget{flex-direction:column;align-items:flex-start}
 }
 </style>
 </head>
@@ -120,57 +164,97 @@ footer p{font-size:0.9rem;color:var(--muted)}
 <nav class="nav" id="nav">
 <div class="nav-logo">Агидель</div>
 <div class="nav-links">
+<a href="#map-section">Карта</a>
 <a href="#route">Маршрут</a>
+<a href="#zones">Зоны</a>
 <a href="#camp">Стоянки</a>
 <a href="#fish">Рыбалка</a>
-<a href="#logistics">Заброска</a>
+<a href="#contacts">Контакты</a>
 <a href="#checklist">Чеклист</a>
 </div>
 </nav>
 
 <header class="hero">
 <div class="hero-inner">
-<div class="hero-tag">Башкирия · река Белая · для своих</div>
+<div class="hero-tag">Башкирия · река Белая · июнь 2026</div>
 <h1>60 км на катамаране.<br>3 дня. 3 парня.</h1>
-<p>Самый красивый кусок Агидели — скалы по 110 метров, пещеры с рисунками мамонтов, голавль на каждом повороте. И никаких организованных групп — сами, дикарями.</p>
+<p>Самый красивый кусок Агидели — скалы по 110 метров, пещеры с рисунками мамонтов, голавль на каждом повороте. Сами, дикарями, из Челябинска.</p>
 <div class="stat-row">
 <div class="stat-item"><div class="stat-val">60</div><div class="stat-lbl">километров</div></div>
 <div class="stat-item"><div class="stat-val">6</div><div class="stat-lbl">пещер</div></div>
 <div class="stat-item"><div class="stat-val">7</div><div class="stat-lbl">скал</div></div>
-<div class="stat-item"><div class="stat-val">~5k</div><div class="stat-lbl">с человека</div></div>
+<div class="stat-item"><div class="stat-val">~7k</div><div class="stat-lbl">с человека</div></div>
 </div>
 </div>
 </header>
 
-<section id="route">
+<!-- КАРТА -->
+<section id="map-section">
+<div class="wrap">
+<div class="stag">Интерактивная карта</div>
+<h2>Весь маршрут на одной карте</h2>
+<p class="lead">Зелёные точки — достопримечательности, синие — рыболовные места, оранжевые — стоянки, красные — запретные зоны. Кликай на точки — откроются подробности.</p>
+<div id="map"></div>
+<div class="map-legend">
+<span><span class="dot" style="background:var(--green)"></span>Достопримечательности</span>
+<span><span class="dot" style="background:var(--blue)"></span>Рыбалка</span>
+<span><span class="dot" style="background:var(--orange)"></span>Стоянки</span>
+<span><span class="dot" style="background:var(--red)"></span>Запрещено ловить / вставать</span>
+</span>
+</div>
+
+<!-- ПОГОДА -->
+<div class="stag" style="margin-top:2rem">Погода</div>
+<h3>Бурзянский район — прямо сейчас</h3>
+<div class="weather-widget" id="weather">
+<div><div class="wt" id="w-temp">...</div><div class="wd" id="w-desc">загрузка...</div></div>
+<div><div class="wl" id="w-details"></div></div>
+</div>
+</div>
+</section>
+
+<!-- МАРШРУТ -->
+<section id="route" style="background:var(--white)">
 <div class="wrap">
 <div class="stag">Маршрут по дням</div>
 <h2>Каждые 3–5 км — новая скала или пещера</h2>
-<p class="lead">Река тут широкая (40–80 м), глубокая (2–5 м), течение спокойное. Катамаран идёт сам, грести особо не надо. Даже в августе воды хватает — не придётся тащить по мелям.</p>
+<p class="lead">Река широкая (40–80 м), глубокая (2–5 м), течение спокойное. Грести особо не надо. Даже в августе воды хватает.</p>
 
 <div class="day">
 <div class="day-badge">День 1</div>
 <h3>Старосубхангулово → Миндигулово</h3>
 <div class="day-stats"><b>20 км</b> &nbsp;·&nbsp; <b>4–5 ч</b> на воде &nbsp;·&nbsp; спокойный разгон</div>
+
+<h3 style="margin-top:1.5rem;font-size:0.85rem;color:var(--green);text-transform:uppercase;letter-spacing:0.15em">Расписание дня</h3>
+<div class="timeline">
+<div class="tl-item"><div class="tl-time">7:00</div><div class="tl-text"><b>Подъём</b>, завтрак, закупка в магазинах Старосубхангулово</div></div>
+<div class="tl-item"><div class="tl-time">9:00</div><div class="tl-text"><b>На воду.</b> Старт от моста</div></div>
+<div class="tl-item"><div class="tl-time">10:00</div><div class="tl-text">Скала <b>Сарын-Таш</b> — подъём 15 мин, фото</div></div>
+<div class="tl-item"><div class="tl-time">11:30</div><div class="tl-text"><b>Большой Амфитеатр</b> — остановка, можно покидать спиннинг</div></div>
+<div class="tl-item"><div class="tl-time">13:00</div><div class="tl-text">Обед на косе, купание</div></div>
+<div class="tl-item"><div class="tl-time">15:00</div><div class="tl-text"><b>Миндигуловская пещера</b> — заплыть внутрь на лодке</div></div>
+<div class="tl-item camp"><div class="tl-time">17:00</div><div class="tl-text"><b>Лагерь</b> у устья Каны. Палатки, костёр, ужин</div></div>
+<div class="tl-item fish"><div class="tl-time">18:30</div><div class="tl-text"><b>Вечерняя рыбалка</b> — голавль у устья Каны</div></div>
+</div>
+
 <div class="spot">
 <div class="spot-name">Скала Сарын-Таш</div>
-<div class="spot-desc">Первая скала маршрута, прямо у впадения речки Узян. Забраться наверх — 15 минут, зато вид на две долины сразу. Тут же можно покидать спиннинг — голавль стоит у устья.</div>
-<a class="map-link" href="https://yandex.ru/maps/?pt=57.428611,53.096389&z=14&l=sat" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Открыть на карте</a>
+<div class="spot-desc">Первая скала маршрута, у впадения Узяна. Подъём 15 мин — вид на две долины.</div>
+<a class="map-link" href="https://yandex.ru/maps/?pt=57.428611,53.096389&z=14&l=sat" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Яндекс.Карты</a>
 </div>
 <div class="spot">
 <div class="spot-name">Большой Амфитеатр</div>
-<div class="spot-desc">Огромная скальная стена по правому берегу — выглядит мощно. Под скалой ямы по 3+ метра, там стоит голавль и щука. Хорошее место остановиться на полчаса и половить.</div>
-<a class="map-link" href="https://yandex.ru/maps/?pt=57.416667,53.076111&z=14&l=sat" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Открыть на карте</a>
+<div class="spot-desc">Огромная скальная стена. Ямы 3+ м под ней — голавль и щука.</div>
+<a class="map-link" href="https://yandex.ru/maps/?pt=57.416667,53.076111&z=14&l=sat" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Яндекс.Карты</a>
 </div>
 <div class="spot">
 <div class="spot-name">Миндигуловская пещера</div>
-<div class="spot-desc">Треугольный вход видно прямо с воды — мимо не проплывёте. Если воды нормально, можно заплыть внутрь на лодке. Прикольные ощущения.</div>
-<a class="map-link" href="https://yandex.ru/maps/?pt=57.309444,53.044444&z=14&l=sat" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Открыть на карте</a>
+<div class="spot-desc">Треугольный вход с воды. Можно заплыть внутрь.</div>
+<a class="map-link" href="https://yandex.ru/maps/?pt=57.309444,53.044444&z=14&l=sat" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Яндекс.Карты</a>
 </div>
 <div class="tags">
 <span class="tag">Голавль — устье Узяна</span>
-<span class="tag">Щука — ямы под Амфитеатром</span>
-<span class="tag">Елец — перекаты</span>
+<span class="tag">Щука — под Амфитеатром</span>
 </div>
 </div>
 
@@ -178,230 +262,330 @@ footer p{font-size:0.9rem;color:var(--muted)}
 <div class="day-badge">День 2</div>
 <h3>Миндигулово → Кабан-Таш</h3>
 <div class="day-stats"><b>20 км</b> &nbsp;·&nbsp; <b>5–6 ч</b> на воде &nbsp;·&nbsp; самый жирный день</div>
+
+<h3 style="margin-top:1.5rem;font-size:0.85rem;color:var(--green);text-transform:uppercase;letter-spacing:0.15em">Расписание дня</h3>
+<div class="timeline">
+<div class="tl-item fish"><div class="tl-time">6:30</div><div class="tl-text"><b>Утренняя рыбалка</b> — голавль на перекатах до жары</div></div>
+<div class="tl-item"><div class="tl-time">8:00</div><div class="tl-text">Завтрак, сборы</div></div>
+<div class="tl-item"><div class="tl-time">9:30</div><div class="tl-text"><b>На воду</b></div></div>
+<div class="tl-item"><div class="tl-time">11:00</div><div class="tl-text"><b>Пропащая яма</b> — карстовый колодец 78 м</div></div>
+<div class="tl-item"><div class="tl-time">12:00</div><div class="tl-text"><b>Семь Сестёр</b> — подъём на площадку, фото</div></div>
+<div class="tl-item"><div class="tl-time">13:30</div><div class="tl-text">Обед. <b>Грифон Таравал</b> — набираем воду</div></div>
+<div class="tl-item"><div class="tl-time">15:30</div><div class="tl-text"><b>Скала Кабан-Таш</b> — 110 м, главная точка</div></div>
+<div class="tl-item camp"><div class="tl-time">16:30</div><div class="tl-text"><b>Лагерь</b> под Кабан-Ташем, дикие поляны</div></div>
+<div class="tl-item fish"><div class="tl-time">18:00</div><div class="tl-text"><b>Рыбалка</b> в ямах под скалой — голавль, щука</div></div>
+</div>
+
 <div class="spot">
-<div class="spot-name">Пропащая яма — 78 метров вниз</div>
-<div class="spot-desc">Карстовый колодец прямо в земле. Подходишь к краю — и там просто дыра 78 метров глубиной. Впечатляет, но аккуратнее — забора нет.</div>
-<a class="map-link" href="https://yandex.ru/maps/?pt=57.200556,53.018611&z=14&l=sat" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Открыть на карте</a>
+<div class="spot-name">Пропащая яма — 78 м вниз</div>
+<div class="spot-desc">Колодец в земле. Подходить аккуратно — забора нет.</div>
+<a class="map-link" href="https://yandex.ru/maps/?pt=57.200556,53.018611&z=14&l=sat" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Яндекс.Карты</a>
 </div>
 <div class="spot">
 <div class="spot-name">Скалы «Семь Сестёр»</div>
-<div class="spot-desc">Самое красивое место для фоток. Подъём наверх — минут 20–30, зато потом такие виды, что в инсту на полгода хватит. Излучина реки в скальном коридоре.</div>
+<div class="spot-desc">Лучшее фото-место. Подъём 20–30 мин.</div>
 </div>
 <div class="spot">
-<div class="spot-name">Родник Таравал — питьевая вода</div>
-<div class="spot-desc">Подземная река вылетает прямо из скалы. Вода чистейшая, ледяная. Тут надо набрать запас — лучшей воды на маршруте не будет.</div>
-<a class="map-link" href="https://yandex.ru/maps/?pt=57.170833,53.003333&z=14&l=sat" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Открыть на карте</a>
+<div class="spot-name">Родник Таравал</div>
+<div class="spot-desc">Подземная река из скалы. Ледяная, чистейшая — набирайте запас.</div>
+<a class="map-link" href="https://yandex.ru/maps/?pt=57.170833,53.003333&z=14&l=sat" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Яндекс.Карты</a>
 </div>
 <div class="spot">
-<div class="spot-name">Скала Кабан-Таш — 110 метров</div>
-<div class="spot-desc">Самая высокая точка маршрута. Острая вершина видна за километр. Под скалой — ямы 4–5 метров, тут стоит реально крупный голавль и щука. Рядом ставим лагерь на вторую ночь.</div>
-<a class="map-link" href="https://yandex.ru/maps/?pt=57.166667,53.019722&z=14&l=sat" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Открыть на карте</a>
+<div class="spot-name">Скала Кабан-Таш — 110 м</div>
+<div class="spot-desc">Самая высокая. Ямы 4–5 м — крупный голавль, щука.</div>
+<a class="map-link" href="https://yandex.ru/maps/?pt=57.166667,53.019722&z=14&l=sat" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Яндекс.Карты</a>
 </div>
 <div class="tags">
 <span class="tag">Голавль — под Кабан-Ташем</span>
 <span class="tag">Жерех — у Семи Сестёр</span>
-<span class="tag">Язь — устье Кургаса</span>
 </div>
 </div>
 
 <div class="day">
 <div class="day-badge">День 3</div>
-<h3>Кабан-Таш → Капова пещера → Кутаново</h3>
+<h3>Кабан-Таш → Капова → Кутаново</h3>
 <div class="day-stats"><b>20 км</b> &nbsp;·&nbsp; <b>3–4 ч</b> на воде &nbsp;·&nbsp; финиш с мамонтами</div>
+
+<h3 style="margin-top:1.5rem;font-size:0.85rem;color:var(--green);text-transform:uppercase;letter-spacing:0.15em">Расписание дня</h3>
+<div class="timeline">
+<div class="tl-item"><div class="tl-time">7:00</div><div class="tl-text">Подъём, завтрак</div></div>
+<div class="tl-item"><div class="tl-time">8:30</div><div class="tl-text"><b>Пещера Сказка</b> — 600 м от берега</div></div>
+<div class="tl-item"><div class="tl-time">10:00</div><div class="tl-text"><b>На воду</b>, сплав до Шульган-Таша</div></div>
+<div class="tl-item"><div class="tl-time">13:00</div><div class="tl-text"><b>Капова пещера</b> — экскурсия</div></div>
+<div class="tl-item"><div class="tl-time">15:00</div><div class="tl-text">Сплав до Кутаново</div></div>
+<div class="tl-item camp"><div class="tl-time">17:00</div><div class="tl-text"><b>Финиш.</b> Выброска на УАЗе</div></div>
+</div>
+
 <div class="spot">
 <div class="spot-name">Пещера Сказка</div>
-<div class="spot-desc">Небольшая, но красивая — сталактиты, цветные разводы на стенах. 600 метров от берега, сходить стоит.</div>
-<a class="map-link" href="https://yandex.ru/maps/?pt=57.124722,53.027222&z=14&l=sat" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Открыть на карте</a>
+<div class="spot-desc">Сталактиты, цветные стены. 600 м от берега.</div>
+<a class="map-link" href="https://yandex.ru/maps/?pt=57.124722,53.027222&z=14&l=sat" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Яндекс.Карты</a>
 </div>
 <div class="spot">
 <div class="spot-name">Капова пещера (Шульган-Таш)</div>
-<div class="spot-desc">Главная точка маршрута. Внутри — рисунки мамонтов и лошадей, которым 14–17 тысяч лет. Серьёзно, это уровень Альтамиры и Ласко. Экскурсия — обязательно, бронируй заранее.</div>
-<a class="map-link" href="https://yandex.ru/maps/?pt=57.065000,53.043611&z=14&l=sat" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Открыть на карте</a>
+<div class="spot-desc">Рисунки мамонтов 14–17 тыс. лет. Бронь обязательна.</div>
+<a class="map-link" href="https://yandex.ru/maps/?pt=57.065000,53.043611&z=14&l=sat" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Яндекс.Карты</a>
 </div>
 <div class="spot">
 <div class="spot-name">Антониева скала — 90 м</div>
-<div class="spot-desc">Полкилометра скальной стены. На высоте 50 метров — пещера, где 250 лет назад жил отшельник. Эпично.</div>
+<div class="spot-desc">Полкилометра стены. Пещера отшельника на высоте 50 м.</div>
 </div>
 </div>
 </div>
 </section>
 
+<!-- ЗАПРЕТНЫЕ ЗОНЫ -->
+<section id="zones">
+<div class="wrap">
+<div class="stag">Запретные зоны</div>
+<h2>Где нельзя рыбачить и вставать</h2>
+<p class="lead">Два участка маршрута с ограничениями. Знать обязательно — штрафы реальные, егеря проверяют.</p>
+
+<div class="zone-card red">
+<div class="zone-icon">&#9940;</div>
+<div>
+<h3>Заповедник Шульган-Таш (км 43–50)</h3>
+<p>Рыбалка запрещена полностью. На кордоне проверяют снасти — убирайте спиннинг в чехол. Дикие стоянки запрещены. Костры только на оборудованных местах. Штраф — от 3 000 руб.</p>
+<a class="map-link" href="https://yandex.ru/maps/?pt=57.065,53.034&z=13&l=sat" target="_blank" style="margin-top:0.5rem"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Зона на карте</a>
+</div>
+</div>
+
+<div class="zone-card red">
+<div class="zone-icon">&#9940;</div>
+<div>
+<h3>Нацпарк «Башкирия» (ниже Шульган-Таша, км 50+)</h3>
+<p>Стоянки только на оборудованных площадках (~500 руб.). Разрешение обязательно — оформляйте заранее на bron.npbashkiria.ru. Без разрешения штраф 3 000–4 000 руб.</p>
+<a class="map-link" href="https://bron.npbashkiria.ru" target="_blank" style="margin-top:0.5rem"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Оформить разрешение</a>
+</div>
+</div>
+
+<div class="zone-card orange">
+<div class="zone-icon">&#9888;</div>
+<div>
+<h3>Нерестовый запрет: 25 апреля — 5 июня</h3>
+<p>В этот период разрешена только одна удочка с берега (до 2 крючков). Спиннинг запрещён. Мы идём в июне — проверяйте точные даты перед выездом!</p>
+</div>
+</div>
+
+<div class="zone-card orange">
+<div class="zone-icon">&#9888;</div>
+<div>
+<h3>Красная книга</h3>
+<p>Стерлядь и таймень — при поимке обязательный выпуск. Даже фото с рыбой в руках может стать проблемой при встрече с егерем.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- СТОЯНКИ -->
 <section id="camp" style="background:var(--white)">
 <div class="wrap">
 <div class="stag">Ночёвки</div>
 <h2>Первые 40 км — вне нацпарка. Встаёте где хотите.</h2>
-<p class="lead">Нацпарк начинается только после Шульган-Таша. Обе ваши ночёвки будут выше — никаких штрафов. Просто не мусорите и тушите костёр нормально.</p>
+<p class="lead">Ограничения начинаются только после Шульган-Таша. Обе ночёвки — выше. Просто не мусорите и тушите костёр.</p>
 
 <div class="night">
 <h3>Ночь 1 · Устье реки Кана</h3>
-<p>Правый берег, километр ниже Миндигулово. Галечная коса вдали от деревни — тихо, никого. Устье Каны — вообще лучшая рыболовная точка всего маршрута. Ловить можно прямо сидя у палатки.</p>
-<a class="map-link" href="https://yandex.ru/maps/?pt=57.300000,53.033333&z=14&l=sat" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Показать на карте</a>
+<p>Правый берег, км ниже Миндигулово. Галечная коса вдали от деревни — тихо, никого. Устье Каны — лучшая рыболовная точка маршрута. Ловить можно сидя у палатки.</p>
+<a class="map-link" href="https://yandex.ru/maps/?pt=57.300000,53.033333&z=14&l=sat" target="_blank" style="margin-top:0.5rem"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Показать на карте</a>
 </div>
 <div class="night">
 <h3>Ночь 2 · Под скалой Кабан-Таш</h3>
-<p>Не на кордоне «Сказка» — там платно и народу полно. А 2–3 км выше, дикие поляны на правом берегу. 110 метров скалы над головой, ямы с голавлем прямо у палатки. Место огонь.</p>
-<a class="map-link" href="https://yandex.ru/maps/?pt=57.166667,53.019722&z=14&l=sat" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Показать на карте</a>
+<p>Не кордон «Сказка» — там платно и народу полно. А 2–3 км выше, дикие поляны правого берега. 110 м скалы, ямы с голавлем у палатки.</p>
+<a class="map-link" href="https://yandex.ru/maps/?pt=57.166667,53.019722&z=14&l=sat" target="_blank" style="margin-top:0.5rem"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Показать на карте</a>
 </div>
 
 <div class="tips-grid">
-<div class="tip-box"><div class="ti">&#128293;</div><h4>Костёр</h4><p>На старом кострище или на гальке. Тушить до конца</p></div>
-<div class="tip-box"><div class="ti">&#128686;</div><h4>Мусор</h4><p>Весь с собой. Оставите — карма вернёт</p></div>
-<div class="tip-box"><div class="ti">&#128167;</div><h4>Вода</h4><p>Из родников. Речную — кипятить</p></div>
-<div class="tip-box"><div class="ti">&#128263;</div><h4>Тишина</h4><p>После 22:00 потише. Уважаем соседей</p></div>
-</div>
-
-<div class="alert danger">
-<h3>Заповедник = штраф</h3>
-<p>В заповеднике Шульган-Таш и нацпарке «Башкирия» (ниже по течению) дикие стоянки запрещены — штраф 3–4 тыс. руб. Но ваши обе ночёвки будут выше, там ограничений нет.</p>
+<div class="tip-box"><div class="ti">&#128293;</div><h4>Костёр</h4><p>На старом кострище или гальке</p></div>
+<div class="tip-box"><div class="ti">&#128686;</div><h4>Мусор</h4><p>Весь с собой</p></div>
+<div class="tip-box"><div class="ti">&#128167;</div><h4>Вода</h4><p>Из родников. Речную кипятить</p></div>
+<div class="tip-box"><div class="ti">&#128263;</div><h4>Тишина</h4><p>После 22:00 потише</p></div>
 </div>
 </div>
 </section>
 
+<!-- РЫБАЛКА -->
 <section id="fish">
 <div class="wrap">
 <div class="stag">Рыбалка</div>
-<h2>Голавль — главный трофей. На каждом перекате.</h2>
-<p class="lead">Стоит под скалами, у нависающих деревьев, на выходах из перекатов. Утром до 9 и вечером после 6 — жор. Днём в жару клюёт хуже.</p>
+<h2>Голавль на каждом перекате</h2>
+<p class="lead">Утром до 9 и вечером после 6 — жор. Днём в жару клюёт хуже.</p>
 
 <div class="fish-grid">
-<div class="fish-item"><h3>Голавль</h3><p>Микроколебалки 5–7 г, кренки, вертушки №0–2. Главная рыба тут. На каждом повороте.</p></div>
-<div class="fish-item"><h3>Щука</h3><p>Заводи и коряжники. Воблеры minnow покрупнее. Без поводка не суйтесь — срежет.</p></div>
-<div class="fish-item"><h3>Язь</h3><p>Устья притоков. Поплавок с кузнечиком или мелкие вертушки. Жирный, вкусный.</p></div>
-<div class="fish-item"><h3>Окунь</h3><p>Везде. Вертушки, микроджиг, тейлспиннеры 5–7 г. Ваш NVA MAX тут как дома.</p></div>
+<div class="fish-item"><h3>Голавль</h3><p>Микроколебалки 5–7 г, кренки, вертушки №0–2. Главная рыба тут.</p></div>
+<div class="fish-item"><h3>Щука</h3><p>Заводи и коряжники. Воблеры minnow. Без поводка — срежет.</p></div>
+<div class="fish-item"><h3>Язь</h3><p>Устья притоков. Поплавок с кузнечиком или мелкие вертушки.</p></div>
+<div class="fish-item"><h3>Окунь</h3><p>Везде. Вертушки, микроджиг, тейлспиннеры 5–7 г.</p></div>
 </div>
 
 <h3 style="margin-top:2.5rem;margin-bottom:1rem;font-size:1.3rem">Три лучших места</h3>
-<div class="top-spot"><div class="top-num">1</div><div><h3>Устье Каны (км 21)</h3><p>Голавль и язь в промышленных количествах. Ваш лагерь первой ночи — тут</p></div></div>
-<div class="top-spot"><div class="top-num">2</div><div><h3>Ямы под Кабан-Ташем (км 32)</h3><p>4–5 метров глубины. Крупный голавль, щука. Вторая ночёвка рядом</p></div></div>
-<div class="top-spot"><div class="top-num">3</div><div><h3>Устье Кургаса</h3><p>Каньон. Голавль и окунь в красивейшем месте</p></div></div>
+<div class="top-spot"><div class="top-num">1</div><div><h3>Устье Каны (км 21)</h3><p>Голавль и язь. Лагерь первой ночи — тут</p></div></div>
+<div class="top-spot"><div class="top-num">2</div><div><h3>Ямы под Кабан-Ташем (км 32)</h3><p>4–5 м. Крупный голавль, щука. Вторая ночёвка рядом</p></div></div>
+<div class="top-spot"><div class="top-num">3</div><div><h3>Устье Кургаса</h3><p>Каньон. Голавль и окунь</p></div></div>
+</div>
+</section>
 
-<div class="alert danger" style="margin-top:2rem">
-<h3>Где нельзя ловить</h3>
-<p>В заповеднике Шульган-Таш рыбалка запрещена совсем. На кордоне проверяют — убирайте спиннинг. Нерестовый запрет: 25 апреля – 5 июня. Стерлядь и таймень — Красная книга, поймали — отпустили.</p>
+<!-- КОНТАКТЫ -->
+<section id="contacts" style="background:var(--white)">
+<div class="wrap">
+<div class="stag">Полезные контакты</div>
+<h2>Кому звонить и где искать</h2>
+
+<div class="contact-grid">
+<div class="contact-card g">
+<h3>Заброска / выброска</h3>
+<p>Искать водителей в ВК-группах:</p>
+<p><a href="https://vk.com/search?c%5Bq%5D=%D1%81%D0%BF%D0%BB%D0%B0%D0%B2%20%D0%B1%D0%B5%D0%BB%D0%B0%D1%8F%20%D0%B1%D1%83%D1%80%D0%B7%D1%8F%D0%BD&c%5Bsection%5D=communities" target="_blank">Поиск «сплав Белая Бурзян» в ВК</a></p>
+<p>Летом у Каповой пещеры дежурят таксисты — довезут до Старосубхангулово.</p>
+<p>УАЗ Кутаново → Старосубхангулово: ~2 500 руб.</p>
+</div>
+<div class="contact-card b">
+<h3>Капова пещера (Шульган-Таш)</h3>
+<p>Тел: <a href="tel:+73475533710">+7 (34755) 3-37-10</a></p>
+<p>Тел: <a href="tel:+73475533500">+7 (34755) 3-35-00</a></p>
+<p>Сайт: <a href="https://shulgan-tash.ru" target="_blank">shulgan-tash.ru</a></p>
+<p>Экскурсии: 11:00, 13:00, 15:00, 17:00</p>
+<p>Будни 300 ₽, вых. 400 ₽, пик (июль–авг) 500 ₽</p>
+</div>
+<div class="contact-card o">
+<h3>Нацпарк «Башкирия»</h3>
+<p>Разрешение онлайн: <a href="https://bron.npbashkiria.ru" target="_blank">bron.npbashkiria.ru</a></p>
+<p>Тел: <a href="tel:+79610467606">+7 (961) 046-76-06</a></p>
+<p>Стоянки на территории: ~500 руб.</p>
+</div>
+<div class="contact-card r">
+<h3>Экстренные</h3>
+<p>МЧС: <a href="tel:112">112</a> (работает без связи)</p>
+<p>Спасатели Бурзян: <a href="tel:+73475532101">+7 (34755) 3-21-01</a></p>
+<p>Скорая Старосубхангулово: <a href="tel:+73475533103">+7 (34755) 3-31-03</a></p>
+<p>Связь на маршруте — нет! Только в Старосубхангулово.</p>
+</div>
+</div>
+
+<div class="contact-grid">
+<div class="contact-card g">
+<h3>Прокат снаряжения</h3>
+<p>Турбаза «КаповаТур» д. Миндигулово</p>
+<p>Сайт: <a href="https://kapovatur.ru" target="_blank">kapovatur.ru</a></p>
+<p>Катамаран 4–6 мест ~2 500 руб/день</p>
+</div>
+<div class="contact-card b">
+<h3>Автобусы</h3>
+<p>Челябинск → Белорецк: <a href="https://unitiki.com/che/Chelyabinsk-c2566/Beloreck-c2626" target="_blank">unitiki.com</a></p>
+<p>Белорецк → Старосубхангулово: автостанция, рейсы 13:50 / 18:30</p>
+</div>
 </div>
 </div>
 </section>
 
-<section id="logistics" style="background:var(--white)">
+<!-- ЛОГИСТИКА -->
+<section id="logistics">
 <div class="wrap">
 <div class="stag">Как добраться</div>
-<h2>Из Челябинска без машины. Автобусы + попутки.</h2>
+<h2>Из Челябинска без машины</h2>
 
 <h3 style="margin:1.5rem 0 1rem;font-size:1.2rem">Туда</h3>
-<div class="route-step"><div class="step-dot">&#128652;</div><div class="step-body"><h3>Челябинск → Белорецк</h3><p>Автобус каждый день, 5–6 часов, ~800–1 000 руб. Или BlaBlaCar — тоже вариант</p></div></div>
+<div class="route-step"><div class="step-dot">&#128652;</div><div class="step-body"><h3>Челябинск → Белорецк</h3><p>Автобус каждый день, 5–6 часов, ~1 100 руб.</p></div></div>
 <div class="connector"></div>
-<div class="route-step"><div class="step-dot">&#128656;</div><div class="step-body"><h3>Белорецк → Старосубхангулово</h3><p>Автобус в 13:50 или 18:30, 2 часа, ~400 руб. От остановки до воды — 10 мин</p></div></div>
+<div class="route-step"><div class="step-dot">&#128656;</div><div class="step-body"><h3>Белорецк → Старосубхангулово</h3><p>Автобус 13:50 или 18:30, 2 часа, ~400 руб.</p></div></div>
 
 <h3 style="margin:2.5rem 0 1rem;font-size:1.2rem">Обратно</h3>
-<div class="route-step"><div class="step-dot">&#128663;</div><div class="step-body"><h3>Кутаново → Старосубхангулово</h3><p>Договориться заранее с местным на УАЗе. 2–3 тыс. на троих. Ищите в ВК «Сплав по Белой»</p></div></div>
+<div class="route-step"><div class="step-dot">&#128663;</div><div class="step-body"><h3>Кутаново → Старосубхангулово</h3><p>УАЗ с местным, ~2 500 руб. на троих. Или финиш у Шульган-Таша — там такси.</p></div></div>
 <div class="connector"></div>
-<div class="route-step"><div class="step-dot">&#128652;</div><div class="step-body"><h3>Старосубхангулово → Белорецк → Челябинск</h3><p>Автобусами обратно. Или можно финишировать у Шульган-Таша (км 48) — оттуда проще поймать попутку</p></div></div>
+<div class="route-step"><div class="step-dot">&#128652;</div><div class="step-body"><h3>Старосубхангулово → Челябинск</h3><p>Автобусами через Белорецк.</p></div></div>
 
-<div class="alert warn" style="margin-top:2rem">
-<h3>Прокат</h3>
-<p>Катамаран 4–6 мест — 2 500 руб/день. База «Притяжение», привозят прямо к старту в Старосубхангулово. Звоните заранее.</p>
-</div>
-
-<h3 style="margin:2.5rem 0 1rem;font-size:1.2rem">Бюджет на одного человека</h3>
-<div class="cost-row"><span>Автобусы туда-обратно</span><span>~2 400 ₽</span></div>
-<div class="cost-row"><span>УАЗ обратно (на троих)</span><span>~800 ₽</span></div>
+<h3 style="margin:2.5rem 0 1rem;font-size:1.2rem">Бюджет на одного</h3>
+<div class="cost-row"><span>Автобус Челябинск ↔ Белорецк</span><span>~2 200 ₽</span></div>
+<div class="cost-row"><span>Автобус Белорецк ↔ Старосубхангулово</span><span>~800 ₽</span></div>
+<div class="cost-row"><span>УАЗ выброска (на троих)</span><span>~850 ₽</span></div>
 <div class="cost-row"><span>Капова пещера</span><span>~400 ₽</span></div>
-<div class="cost-row"><span>Продукты на 3 дня</span><span>~1 500 ₽</span></div>
-<div class="cost-row"><span>Итого с человека</span><span>~5 100 ₽</span></div>
+<div class="cost-row"><span>Продукты на 3 дня</span><span>~3 000 ₽</span></div>
+<div class="cost-row"><span>Итого с человека</span><span>~7 250 ₽</span></div>
 </div>
 </section>
 
-<section id="checklist">
+<!-- ЧЕКЛИСТ -->
+<section id="checklist" style="background:var(--white)">
 <div class="wrap">
 <div class="stag">Чеклист</div>
 <h2>Что взять с собой</h2>
-<p class="lead">Распечатай и вычёркивай. Забудешь спасжилет — тебя развернут на первом же кордоне.</p>
+<p class="lead">Распечатай и вычёркивай. Забудешь спасжилет — развернут на кордоне.</p>
 
 <div class="check-section"><div class="check-title">Снаряжение</div>
-<ul class="check-list">
-<li>Катамаран / лодка + насос</li>
-<li>Вёсла (и запасное если есть)</li>
-<li>Спасжилеты — 3 шт.</li>
-<li>Палатка + тент от дождя</li>
-<li>Спальники — 3 шт.</li>
-<li>Карематы — 3 шт.</li>
-<li>Гермомешки — 2 больших</li>
-<li>Верёвка 15–20 м</li>
-</ul></div>
+<ul class="check-list"><li>Катамаран / лодка + насос</li><li>Вёсла (+ запасное)</li><li>Спасжилеты — 3 шт.</li><li>Палатка + тент</li><li>Спальники — 3 шт.</li><li>Карематы — 3 шт.</li><li>Гермомешки — 2 больших</li><li>Верёвка 15–20 м</li></ul></div>
 
 <div class="check-section"><div class="check-title">Еда и кухня</div>
-<ul class="check-list">
-<li>Котелок 3–5 л</li>
-<li>Горелка + газ (на дождь)</li>
-<li>Кружки, ложки, ножи ×3</li>
-<li>Спички в герме ×2</li>
-<li>Тушёнка / сублиматы — 9 порций</li>
-<li>Крупы (гречка, рис, макароны) — 1.5 кг</li>
-<li>Хлеб / сухари</li>
-<li>Чай, кофе, сахар</li>
-<li>Сало / колбаса сырокопчёная</li>
-<li>Сгущёнка, орехи, печенье</li>
-</ul></div>
+<ul class="check-list"><li>Котелок 3–5 л</li><li>Горелка + газ</li><li>Кружки, ложки, ножи ×3</li><li>Спички в герме ×2</li><li>Мясо / тушёнка / сублиматы</li><li>Крупы — 1.5 кг</li><li>Хлеб / лаваш / сухари</li><li>Чай, кофе, сахар</li><li>Сало / колбаса сырокопчёная</li><li>Перекусы: орехи, батончики, сгущ</li></ul></div>
 
 <div class="check-section"><div class="check-title">Рыбалка</div>
-<ul class="check-list">
-<li>Спиннинг NVA MAX-766MLS</li>
-<li>Катушка 2000 + шнур PE #0.6</li>
-<li>Тейлспиннеры 5–7 г (WALK FISH)</li>
-<li>Вертушки №0–2, микроколебалки</li>
-<li>Виброхвосты 50–75 мм + джиг-головки</li>
-<li>Поводки на щуку — 5 шт.</li>
-<li>Подсак складной</li>
-</ul></div>
+<ul class="check-list"><li>Спиннинг + катушка</li><li>Шнур PE 0.6–0.8</li><li>Тейлспиннеры 5–7 г</li><li>Вертушки, микроколебалки</li><li>Виброхвосты + джиг-головки</li><li>Поводки на щуку — 5 шт.</li><li>Подсак складной</li></ul></div>
 
 <div class="check-section"><div class="check-title">Одежда</div>
-<ul class="check-list">
-<li>Непромокаемая куртка</li>
-<li>Флиска (вечером реально холодно)</li>
-<li>Шорты + штаны быстросохнущие</li>
-<li>Аквашузы для воды + кроссовки для берега</li>
-<li>Панама + солнечные очки</li>
-<li>Сменное бельё ×2</li>
-</ul></div>
+<ul class="check-list"><li>Непромокаемая куртка</li><li>Флиска (вечером холодно)</li><li>Шорты + штаны быстросохн.</li><li>Аквашузы + кроссовки</li><li>Панама + солнечные очки</li><li>Сменное бельё ×2</li></ul></div>
 
 <div class="check-section"><div class="check-title">Безопасность и документы</div>
-<ul class="check-list">
-<li>Аптечка (бинт, пластыри, антисептик, обезбол.)</li>
-<li>Репеллент от клещей — ОБЯЗАТЕЛЬНО</li>
-<li>Крем SPF 30+</li>
-<li>Налобный фонарик + батарейки</li>
-<li>Телефон в гермочехле</li>
-<li>Power bank</li>
-<li>Мусорные пакеты (мусор с собой!)</li>
-<li>Паспорт в гермопакете</li>
-<li>Наличные — 5 000 руб. (карты не работают)</li>
-<li>Бронь Каповой пещеры (shulgan-tash.ru)</li>
-</ul></div>
+<ul class="check-list"><li>Аптечка</li><li>Репеллент от клещей!</li><li>Крем SPF 30+</li><li>Налобный фонарик + батарейки</li><li>Телефон в гермочехле</li><li>Power bank</li><li>Мусорные пакеты</li><li>Паспорт в герме</li><li>Наличные — 5 000 руб.</li><li>Бронь Каповой пещеры</li></ul></div>
 </div>
 </section>
 
-<section id="warnings" style="background:var(--white)">
+<!-- ПРЕДУПРЕЖДЕНИЯ -->
+<section id="warnings">
 <div class="wrap">
 <div class="stag">Важное</div>
 <h2>Не пропустите</h2>
 <div class="grid2">
-<div class="info-card red"><h3>Клещи — без шуток</h3><p>Район — зона высокого риска энцефалита. Прививка, репелленты, осмотр друг друга каждый вечер. На берегу ходите в закрытой обуви — тут ещё и гадюки.</p></div>
-<div class="info-card orange"><h3>Связи нет</h3><p>Телефон ловит только в Старосубхангулово. На маршруте — тишина. Мегафон иногда мелькает. Предупредите родных заранее.</p></div>
-<div class="info-card green"><h3>Когда ехать</h3><p>Июнь — начало июля. Вода высокая, клёв топ, стоянки ещё свободны. В августе теплее, но река мелеет и народу больше.</p></div>
-<div class="info-card blue"><h3>Капова пещера</h3><p>Экскурсии в 11, 13, 15 и 17 часов. Бронь: shulgan-tash.ru или +7 (34755) 3-37-10. Будни 300 ₽, выходные 400–500 ₽.</p></div>
+<div class="info-card red"><h3>Клещи — без шуток</h3><p>Зона высокого риска энцефалита. Прививка, репелленты, осмотр каждый вечер. Гадюки — закрытая обувь.</p></div>
+<div class="info-card orange"><h3>Связи нет</h3><p>Телефон ловит только в Старосубхангулово. Предупредите родных. 112 работает без сим-карты.</p></div>
+<div class="info-card green"><h3>Когда ехать</h3><p>Июнь — начало июля. Вода высокая, клёв топ, стоянки свободны. В августе теплее, но мелеет.</p></div>
+<div class="info-card blue"><h3>Стоянки в сезон</h3><p>К 17:00 хорошие места заняты. Не откладывайте остановку до темноты.</p></div>
 </div>
 </div>
 </section>
 
 <footer>
 <div class="ft">Хорошего сплава, парни!</div>
-<p>Река Белая (Агидель) · Бурзянский район · Башкортостан</p>
+<p>Река Белая (Агидель) · Бурзянский район · Башкортостан · Июнь 2026</p>
 </footer>
 
 <script>
 const n=document.getElementById('nav');
 window.addEventListener('scroll',()=>n.classList.toggle('solid',window.scrollY>100));
 document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'})}));
+
+ymaps.ready(function(){
+var map=new ymaps.Map('map',{center:[53.04,57.20],zoom:11,type:'yandex#satellite',controls:['zoomControl','fullscreenControl']});
+var pts=[
+{c:[53.096389,57.428611],t:'Старт — Старосубхангулово',d:'Спуск к воде у моста',color:'#1b6b4a'},
+{c:[53.076111,57.416667],t:'Большой Амфитеатр',d:'Скальная стена, ямы 3+ м',color:'#1b6b4a'},
+{c:[53.044444,57.309444],t:'Миндигуловская пещера',d:'Треугольный вход, можно заплыть',color:'#1b6b4a'},
+{c:[53.033333,57.300000],t:'Ночёвка 1 — устье Каны',d:'Галечная коса, рыбалка с лагеря',color:'#d97706'},
+{c:[53.018611,57.200556],t:'Пропащая яма — 78 м',d:'Карстовый колодец',color:'#1b6b4a'},
+{c:[53.003333,57.170833],t:'Грифон Таравал',d:'Родник из скалы — питьевая вода',color:'#1b6b4a'},
+{c:[53.019722,57.166667],t:'Кабан-Таш — 110 м',d:'Самая высокая скала + ямы с рыбой',color:'#1b6b4a'},
+{c:[53.015,57.175],t:'Ночёвка 2 — под Кабан-Ташем',d:'Дикие поляны правого берега',color:'#d97706'},
+{c:[53.027222,57.124722],t:'Пещера Сказка',d:'Сталактиты, 600 м от берега',color:'#1b6b4a'},
+{c:[53.043611,57.065000],t:'Капова пещера',d:'Рисунки мамонтов 14-17 тыс. лет',color:'#1b6b4a'},
+{c:[52.982522,57.040393],t:'Финиш — Кутаново',d:'Выброска на УАЗе',color:'#1b6b4a'},
+{c:[53.033333,57.300000],t:'Рыбалка — устье Каны',d:'Голавль, язь — лучшая точка',color:'#2872a8'},
+{c:[53.019722,57.166667],t:'Рыбалка — Кабан-Таш',d:'Голавль, щука в ямах 4-5 м',color:'#2872a8'},
+{c:[53.038,57.060],t:'ЗАПРЕЩЕНО — заповедник',d:'Рыбалка запрещена, стоянки запрещены',color:'#bf3b30'},
+];
+pts.forEach(function(p){
+var pm=new ymaps.Placemark(p.c,{balloonContentHeader:p.t,balloonContentBody:p.d},{preset:'islands#dotIcon',iconColor:p.color});
+map.geoObjects.add(pm);
+});
+var line=new ymaps.Polyline([[53.096389,57.428611],[53.076111,57.416667],[53.044444,57.309444],[53.033333,57.300000],[53.018611,57.200556],[53.003333,57.170833],[53.019722,57.166667],[53.027222,57.124722],[53.043611,57.065000],[53.008325,57.036831],[52.982522,57.040393]],{},{strokeColor:'#1b6b4a',strokeWidth:3,strokeOpacity:0.7});
+map.geoObjects.add(line);
+});
+
+fetch('https://api.open-meteo.com/v1/forecast?latitude=53.04&longitude=57.20&current=temperature_2m,wind_speed_10m,relative_humidity_2m,weather_code&timezone=Asia/Yekaterinburg')
+.then(r=>r.json()).then(d=>{
+var c=d.current;
+var codes={0:'Ясно',1:'Малооблачно',2:'Переменная облачность',3:'Пасмурно',45:'Туман',48:'Туман',51:'Морось',53:'Морось',55:'Морось',61:'Дождь',63:'Дождь',65:'Ливень',71:'Снег',73:'Снег',75:'Снегопад',80:'Ливень',81:'Ливень',82:'Гроза',95:'Гроза',96:'Гроза с градом',99:'Гроза с градом'};
+document.getElementById('w-temp').textContent=Math.round(c.temperature_2m)+'°C';
+document.getElementById('w-desc').textContent=codes[c.weather_code]||'';
+document.getElementById('w-details').textContent='Ветер '+Math.round(c.wind_speed_10m)+' км/ч · Влажность '+c.relative_humidity_2m+'%';
+}).catch(()=>{document.getElementById('w-desc').textContent='Не удалось загрузить';});
 </script>
 </body>
 </html>
